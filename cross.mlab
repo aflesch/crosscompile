@@ -1,0 +1,24 @@
+#!/usr/bin/env mlab
+
+FLAG ver=5.6
+FROM ubuntu
+
+EXPORT VER=$ver
+EXPORT BASE=/home/eldk-$VER
+
+RUN apt-get update && apt-get install -y vim
+RUN apt-get install -y net-tools netcat-traditional wget sudo bzip2 python
+RUN mkdir -p $BASE
+RUN cd /home/eldk-$VER
+RUN wget -P $BASE/targets/powerpc ftp://ftp.denx.de/pub/eldk/$VER/targets/powerpc/*
+RUN wget -P $BASE ftp://ftp.denx.de/pub/eldk/$VER/*
+
+RUN << END
+  cd $BASE
+  chmod +x install.sh
+  chmod +x targets/powerpc/*.sh
+	./install.sh -s toolchain -r lsb-dev powerpc
+END
+
+START bash
+
