@@ -3,22 +3,19 @@
 FLAG ver=5.6
 FROM ubuntu
 
+ADD scripts /root/scripts
+
 EXPORT VER=$ver
 EXPORT BASE=/home/eldk-$VER
 
-RUN apt-get update && apt-get install -y vim
-RUN apt-get install -y net-tools netcat-traditional wget sudo bzip2 python
-RUN mkdir -p $BASE
-RUN cd /home/eldk-$VER
-RUN wget -P $BASE/targets/powerpc ftp://ftp.denx.de/pub/eldk/$VER/targets/powerpc/*
-RUN wget -P $BASE ftp://ftp.denx.de/pub/eldk/$VER/*
+RUN apt-get update
+RUN apt-get install -y net-tools netcat-traditional wget sudo bzip2 python make vim
 
-RUN << END
-  cd $BASE
-  chmod +x install.sh
-  chmod +x targets/powerpc/*.sh
-	./install.sh -s toolchain -r lsb-dev powerpc
-END
+RUN /root/scripts/create_toolchain.sh
+RUN /root/scripts/create_microhttpd.sh
 
-START bash
+START << START
+	. /opt/eldk-$VER/powerpc/environment-setup-powerpc-linux
+	bash	
+START
 
