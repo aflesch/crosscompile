@@ -5,6 +5,7 @@ SNMP_VER=5.7.3
 
 . /opt/eldk-$ELDKVER/powerpc/environment-setup-powerpc-linux
 mkdir -p /home/netsnmp
+cd /home/netsnmp
 wget https://sourceforge.net/projects/net-snmp/files/net-snmp/$SNMP_VER/net-snmp-$SNMP_VER.tar.gz
 tar -xvf net-snmp-$SNMP_VER.tar.gz
 cd net-snmp-$SNMP_VER
