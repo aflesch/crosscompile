@@ -13,6 +13,7 @@ RUN apt-get install -y net-tools netcat-traditional wget sudo bzip2 python make 
 
 RUN /root/scripts/create_toolchain.sh
 RUN /root/scripts/create_microhttpd.sh
+RUN /root/scripts/create_netsnmp.sh
 
 START << START
 	. /opt/eldk-$VER/powerpc/environment-setup-powerpc-linux
