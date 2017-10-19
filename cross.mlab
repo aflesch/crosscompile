@@ -9,7 +9,7 @@ EXPORT VER=$ver
 EXPORT BASE=/home/eldk-$VER
 
 RUN apt-get update
-RUN apt-get install -y net-tools netcat-traditional wget sudo bzip2 python make vim git build-essential less
+RUN apt-get install -y net-tools netcat-traditional wget sudo bzip2 xz-utils python make vim git build-essential less
 
 RUN /root/scripts/create_toolchain.sh
 RUN /root/scripts/create_microhttpd.sh
