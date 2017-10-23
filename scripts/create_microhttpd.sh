@@ -19,6 +19,8 @@ ROOTFS_PREFIX=/opt/eldk-$ELDKVER/powerpc/sysroots/powerpc-linux
 echo [[[Creating libmicrohttps-$MICROHTTPD_SRC_VER]]]
 
 . /opt/eldk-$ELDKVER/powerpc/environment-setup-powerpc-linux
+mkdir -p /home/libmicrohttpd
+cd /home/libmicrohttpd
 
 echo [[[Downloading]]]
 wget http://mirror.veriportal.com/gnu/libmicrohttpd/libmicrohttpd-$MICROHTTPD_SRC_VER.tar.gz
@@ -77,6 +79,16 @@ make
 sudo make install
 
 echo ------------------------------------------------------------------------------------
+echo --------- GCRYPT
+echo ------------------------------------------------------------------------------------
+echo
+echo
+cd ../libgcrypt-$GCRYPT_SRC_VER
+./configure --prefix=$ROOTFS_PREFIX/usr --host=powerpc-linux --disable-asm CFLAGS=-O3 --with-gpg-error-prefix=$ROOTFS_PREFIX/usr/
+make
+sudo make install
+
+echo ------------------------------------------------------------------------------------
 echo --------- GNU TLS
 echo ------------------------------------------------------------------------------------
 echo
@@ -87,16 +99,6 @@ cd ../gnutls-$GNUTLS_SRC_VER
 
 make
 sudo "PATH=$PATH" "CROSS_COMPILE=$CROSS_COMPILE" make install
-
-echo ------------------------------------------------------------------------------------
-echo --------- GCRYPT
-echo ------------------------------------------------------------------------------------
-echo
-echo
-cd ../libgcrypt-$GCRYPT_SRC_VER
-./configure --prefix=$ROOTFS_PREFIX/usr --host=powerpc-linux --disable-asm CFLAGS=-O3 --with-gpg-error-prefix=$ROOTFS_PREFIX/usr/
-make
-sudo make install
 
 echo ------------------------------------------------------------------------------------
 echo --------- LIBMICROHTTPD
